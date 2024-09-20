@@ -46,20 +46,24 @@ const PatientForm = () => {
   });
 
   // 2. Define a submit handler.
-  const onSubmit = async ({
-    name,
-    email,
-    phone,
-  }: z.infer<typeof UserFormValidation>) => {
+  const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
     setIsLoading(true);
 
     try {
-      const user = { name, email, phone };
+      const user = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+      };
+
+      console.log("user data", user);
 
       const newUser = await createUser(user);
+
+      console.log("newuser data", newUser);
 
       if (newUser) router.push(`/patients/${newUser.$id}/register`);
     } catch (error) {

@@ -12,7 +12,7 @@ export const convertFileToUrl = (file: File) => URL.createObjectURL(file);
 // FORMAT DATE TIME
 export const formatDateTime = (dateString: Date | string) => {
   const dateTimeOptions: Intl.DateTimeFormatOptions = {
-    // weekday: "short", // abbreviated weekday name (e.g., 'Mon')
+    weekday: "short", // abbreviated weekday name (e.g., 'Mon')
     month: "short", // abbreviated month name (e.g., 'Oct')
     day: "numeric", // numeric day of the month (e.g., '25')
     year: "numeric", // numeric year (e.g., '2023')
@@ -41,22 +41,22 @@ export const formatDateTime = (dateString: Date | string) => {
   };
 
   const formattedDateTime: string = new Date(dateString).toLocaleString(
-    "en-US",
+    "fr-FR",
     dateTimeOptions
   );
 
   const formattedDateDay: string = new Date(dateString).toLocaleString(
-    "en-US",
+    "fr-FR",
     dateDayOptions
   );
 
   const formattedDate: string = new Date(dateString).toLocaleString(
-    "en-US",
+    "fr-FR",
     dateOptions
   );
 
   const formattedTime: string = new Date(dateString).toLocaleString(
-    "en-US",
+    "fr-FR",
     timeOptions
   );
 
