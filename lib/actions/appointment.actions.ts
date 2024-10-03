@@ -126,7 +126,23 @@ export const updateAppointment = async ({
 
     if (!updatedAppointment) throw Error;
 
-    const smsMessage = `Docto-Djib (😉) ${
+    // const smsMessage = `Docto-Djib (😉) ${
+    //   type === "schedule"
+    //     ? `Votre rendez-vous pour le ${
+    //         formatDateTime(appointment.schedule!).dateTime
+    //       } avec Dr. ${appointment.primaryPhysician} est confirmé`
+    //     : `Nous avons le regret de vous informer que votre rendez-vous pour le ${
+    //         formatDateTime(appointment.schedule!).dateTime
+    //       } n'est PAS confirmé. Raison:  ${appointment.cancellationReason}`
+    // }.`
+
+    const subjectMessage = `${
+      type === "schedule"
+        ? "Confirmation de rendez-vous"
+        : "Rendez-vous non confirmé"
+    }`;
+
+    const emailMessage = `Docto-Djib (😉) ${
       type === "schedule"
         ? `Votre rendez-vous pour le ${
             formatDateTime(appointment.schedule!).dateTime
@@ -135,7 +151,7 @@ export const updateAppointment = async ({
             formatDateTime(appointment.schedule!).dateTime
           } n'est PAS confirmé. Raison:  ${appointment.cancellationReason}`
     }.`;
-    await sendSMSNotification(userId, smsMessage);
+    await sendEmailNotification(userId, subjectMessage, emailMessage);
 
     revalidatePath("/admin");
     return parseStringify(updatedAppointment);
@@ -144,16 +160,36 @@ export const updateAppointment = async ({
   }
 };
 
-export const sendSMSNotification = async (userId: string, content: string) => {
+// export const sendSMSNotification = async (userId: string, content: string) => {
+//   try {
+//     // https://appwrite.io/docs/references/1.5.x/server-nodejs/messaging#createSms
+//     const message = await messaging.createSms(
+//       ID.unique(),
+//       content,
+//       [],
+//       [userId]
+//     );
+//     return parseStringify(message);
+//   } catch (error) {
+//     console.error("An error occurred while sending sms:", error);
+//   }
+// };
+
+export const sendEmailNotification = async (
+  userId: string,
+  content: string,
+  subject: string
+) => {
   try {
     // https://appwrite.io/docs/references/1.5.x/server-nodejs/messaging#createSms
-    const message = await messaging.createSms(
+    const email = await messaging.createEmail(
       ID.unique(),
+      subject,
       content,
-      [],
-      [userId]
+      [], //Topics
+      [userId] // Arrey of user IDs
     );
-    return parseStringify(message);
+    return parseStringify(email);
   } catch (error) {
     console.error("An error occurred while sending sms:", error);
   }
