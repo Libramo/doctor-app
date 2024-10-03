@@ -12,7 +12,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: "Doctor <App",
-  description: "Système de gestion de santé",
+  description: "Système de gestion de rendez-vous avec un docteur",
 };
 
 export default function RootLayout({
@@ -23,12 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cn(
-          "min-h-screen bg-dark-300 font-sans antialiased",
-          fontSans.variable
-        )}
+        className={cn("min-h-screen font-sans antialiased", fontSans.variable)}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark">
+        <ThemeProvider attribute="class" defaultTheme="light">
           {children}
         </ThemeProvider>
       </body>

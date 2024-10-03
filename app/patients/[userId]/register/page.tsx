@@ -23,7 +23,8 @@ const Register = async ({ params: { userId } }: SearchParamProps) => {
           <RegisterForm user={user} />
 
           <p className="copyright py-12">
-            © 2024 Doctor App, Tout droits reservé de
+            {/* © 2024 Doctor App, Tout droits reservé de */}
+            {`${new Date().getFullYear()} Docto-Djib tous droits reservés`}
           </p>
         </div>
       </section>

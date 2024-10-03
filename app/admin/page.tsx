@@ -10,6 +10,8 @@ const AdminPage = async () => {
   // const data = await getData();
   const appointments = await getRecentAppointmentList();
 
+  console.log("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL", appointments);
+
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <header className="admin-header">
@@ -36,25 +38,24 @@ const AdminPage = async () => {
           <StatCard
             type="appointments"
             count={appointments.scheduledCount}
-            label="Scheduled appointments"
+            label="Confirmés"
             icon={"/assets/icons/appointments.svg"}
           />
           <StatCard
             type="pending"
             count={appointments.pendingCount}
-            label="Pending appointments"
+            label="En attente"
             icon={"/assets/icons/pending.svg"}
           />
           <StatCard
             type="cancelled"
             count={appointments.cancelledCount}
-            label="Cancelled appointments"
+            label="Annulés"
             icon={"/assets/icons/cancelled.svg"}
           />
         </section>
 
         <DataTable columns={columns} data={appointments.documents} />
-        {/* <DataTable columns={columns} data={data} /> */}
       </main>
     </div>
   );

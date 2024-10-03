@@ -177,8 +177,8 @@ export const updateAppointment = async ({
 
 export const sendEmailNotification = async (
   userId: string,
-  content: string,
-  subject: string
+  subject: string,
+  content: string
 ) => {
   try {
     // https://appwrite.io/docs/references/1.5.x/server-nodejs/messaging#createSms
@@ -187,8 +187,13 @@ export const sendEmailNotification = async (
       subject,
       content,
       [], //Topics
-      [userId] // Arrey of user IDs
+      [userId], // Array of user IDs
+      []
     );
+
+    // console.log("LOOOOOOOOOOOOOOOOOOOOOOOOOOOO", email);
+
+    // console.log(email);
     return parseStringify(email);
   } catch (error) {
     console.error("An error occurred while sending sms:", error);

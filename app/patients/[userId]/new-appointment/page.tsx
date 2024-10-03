@@ -27,7 +27,8 @@ const NewAppointment = async ({ params: { userId } }: SearchParamProps) => {
           />
 
           <p className="copyright mt-10 py-10">
-            © 2024 Doctor App, All rights reserved
+            {/* © 2024 Doctor App, All rights reserved */}
+            {`${new Date().getFullYear()} Docto-Djib tous droits reservés`}
           </p>
         </div>
       </section>
