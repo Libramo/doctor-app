@@ -24,7 +24,8 @@ export default function Home({ searchParams }: SearchParamProps) {
           <PatientForm />
           <div className="text-14-regular mt-15 mb-4 pt-5 pb-5 flex justify-between">
             <p className="justify-items-end text-dark-600 xl:text-left">
-              © 2024 DoctoDjib, Tous droits réservés
+              {/* © 2024 DoctoDjib, Tous droits réservés */}
+              LIBAN YONIS OMAR
             </p>
 
             <Link href="/?admin=true" className="text-green-500">
