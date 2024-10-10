@@ -1,5 +1,6 @@
 import RegisterForm from "@/components/forms/RegisterForm";
 import { getUser } from "@/lib/actions/patient.actions";
+import { currentYearForCopyright } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -24,7 +25,7 @@ const Register = async ({ params: { userId } }: SearchParamProps) => {
 
           <p className="copyright py-12">
             {/* © 2024 Doctor App, Tout droits reservé de */}
-            {`${new Date().getFullYear()} Docto-Djib tous droits reservés`}
+            {currentYearForCopyright()}
           </p>
         </div>
       </section>

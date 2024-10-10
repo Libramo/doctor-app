@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Doctors } from "@/constants";
 import { getAppointment } from "@/lib/actions/appointment.actions";
-import { formatDateTime } from "@/lib/utils";
+import { currentYearForCopyright, formatDateTime } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -49,35 +49,46 @@ const Success = async ({
         </section>
 
         <section className="request-details">
-          <p>Details du rendez-vous: </p>
-          <div className="flex gap-3 items-center">
-            <Image
-              src={doctor?.image!}
-              alt="doctor"
-              width={100}
-              height={100}
-              className="size-6"
-            />
-            <p className="whitespace-nowrap">Dr. {doctor?.name}</p>
-          </div>
-          <div className="flex gap-2">
-            <Image
-              src="/assets/icons/calendar.svg"
-              alt="calendar"
-              height={24}
-              width={24}
-            />
-            <p> {formatDateTime(appointment.schedule).dateTime}</p>
+          <div className="flex flex-col gap-5">
+            <p>Details du rendez-vous: </p>
+            <div className="flex gap-3 items-center">
+              <Image
+                src={doctor?.image!}
+                alt="doctor"
+                width={100}
+                height={100}
+                className="size-6"
+              />
+              <p className="whitespace-nowrap">Dr. {doctor?.name}</p>
+            </div>
+            <div className="flex gap-2">
+              <Image
+                src="/assets/icons/calendar.svg"
+                alt="calendar"
+                height={24}
+                width={24}
+              />
+              <p> {formatDateTime(appointment.schedule).dateTime}</p>
+            </div>
           </div>
         </section>
 
-        <Button variant={"outline"} className="shad-primary-btn" asChild>
-          <Link href={`/patients/${userId}/new-appointment`}>
-            New appointment
-          </Link>
-        </Button>
+        <div className="flex gap-3">
+          <Button variant={"outline"} className="shad-primary-btn" asChild>
+            <Link href={`/patients/${userId}/new-appointment`}>
+              Nouveau rendez-vous
+            </Link>
+          </Button>
+          <Button
+            variant={"default"}
+            className="bg-slate-200 text-black"
+            asChild
+          >
+            <Link href="/">Annuler</Link>
+          </Button>
+        </div>
 
-        <p className="copyright"> 2024 Docto-Djib</p>
+        <p className="copyright"> {currentYearForCopyright()}</p>
       </div>
     </div>
   );

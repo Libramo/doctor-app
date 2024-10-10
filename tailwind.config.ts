@@ -48,6 +48,7 @@ const config = {
       },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
+        pacifico: ["var(--font-pacifico)", "sans-serif"],
       },
       backgroundImage: {
         appointments: "url('/assets/images/appointments-bg.png')",

@@ -227,10 +227,10 @@ const RegisterForm = ({ user }: { user: User }) => {
           label="Médecin traitant du patient"
           placeholder="Selectionnez un médecin"
         >
+          {/* TODO: Implement a dynamic & real data of doctors*/}
           {Doctors.map((doctor) => (
             <SelectItem key={doctor.name} value={doctor.name}>
               <div className="flex cursor-pointer gap-2 items-center">
-                {/* <Image  /> */}
                 <Image
                   src={doctor.image}
                   width={32}
@@ -243,24 +243,6 @@ const RegisterForm = ({ user }: { user: User }) => {
             </SelectItem>
           ))}
         </CustomFormField>
-        {/* INSURANCE & POLICY NUMBER */}
-        <div className="flex flex-col gap-6 xl:flex-row">
-          <CustomFormField
-            fieldType={FormFieldType.INPUT}
-            control={form.control}
-            name="insuranceProvider"
-            label="Insurance provider"
-            placeholder="BlueCross BlueShield"
-          />
-
-          <CustomFormField
-            fieldType={FormFieldType.INPUT}
-            control={form.control}
-            name="insurancePolicyNumber"
-            label="Insurance policy number"
-            placeholder="ABC123456789"
-          />
-        </div>
 
         {/* ALLERGY & CURRENT MEDICATIONS */}
         <div className="flex flex-col gap-6 xl:flex-row">
@@ -269,14 +251,14 @@ const RegisterForm = ({ user }: { user: User }) => {
             control={form.control}
             name="allergies"
             label="Allergies (si vous avez des allergies)"
-            placeholder="Peanuts, Penicillin, Pollen"
+            placeholder="Arachide, pollen, etc..."
           />
 
           <CustomFormField
             fieldType={FormFieldType.TEXTAREA}
             control={form.control}
             name="currentMedication"
-            label="Current medications"
+            label="Traitement suivi actuellement"
             placeholder="Ibuprofen 200mg, Levothyroxine 50mcg"
           />
         </div>
@@ -303,7 +285,7 @@ const RegisterForm = ({ user }: { user: User }) => {
         {/* SECTION IDENTIFCATION ET VERIFICATION */}
         <section className="space-y-6">
           <div className="mb-9 space-y-1">
-            <h2 className="sub-header">Informations médicales du patient</h2>
+            <h2 className="sub-header">Identité du patient</h2>
           </div>
         </section>
 
@@ -354,18 +336,6 @@ const RegisterForm = ({ user }: { user: User }) => {
           control={form.control}
           name="treatmentConsent"
           label="I consent to treatment"
-          renderSkeleton={(field) => (
-            <FormControl>
-              <FileUploder files={field.value} onChange={field.onChange} />
-            </FormControl>
-          )}
-        />
-
-        <CustomFormField
-          fieldType={FormFieldType.CHECKBOX}
-          control={form.control}
-          name="disclosureConsent"
-          label="I consent to disclosure information"
           renderSkeleton={(field) => (
             <FormControl>
               <FileUploder files={field.value} onChange={field.onChange} />

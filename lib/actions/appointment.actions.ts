@@ -7,9 +7,12 @@ import {
   databases,
   messaging,
 } from "../appwrite.config";
+
 import { formatDateTime, parseStringify } from "../utils";
 import { Appointment } from "@/types/appwrite.types";
 import { revalidatePath } from "next/cache";
+import { sinchClient, MY_SINCH_NUMBER } from "../sinch.config";
+import { getUser } from "./patient.actions";
 
 export const createAppointment = async (
   appointment: CreateAppointmentParams
@@ -48,26 +51,6 @@ export const getRecentAppointmentList = async () => {
       APPOINTMENT_COLLECTION_ID!,
       [Query.orderDesc("$createdAt")]
     );
-
-    // const scheduledAppointments = (
-    //   appointments.documents as Appointment[]
-    // ).filter((appointment) => appointment.status === "scheduled");
-
-    // const pendingAppointments = (
-    //   appointments.documents as Appointment[]
-    // ).filter((appointment) => appointment.status === "pending");
-
-    // const cancelledAppointments = (
-    //   appointments.documents as Appointment[]
-    // ).filter((appointment) => appointment.status === "cancelled");
-
-    // const data = {
-    //   totalCount: appointments.total,
-    //   scheduledCount: scheduledAppointments.length,
-    //   pendingCount: pendingAppointments.length,
-    //   cancelledCount: cancelledAppointments.length,
-    //   documents: appointments.documents,
-    // };
 
     const initialCounts = {
       scheduledCount: 0,
@@ -111,10 +94,13 @@ export const getRecentAppointmentList = async () => {
 export const updateAppointment = async ({
   appointmentId,
   userId,
-  // timeZone,
   appointment,
   type,
 }: UpdateAppointmentParams) => {
+  const userData = await getUser(userId);
+
+  console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP", userData);
+
   try {
     // Update appointment to scheduled -> https://appwrite.io/docs/references/cloud/server-nodejs/databases#updateDocument
     const updatedAppointment = await databases.updateDocument(
@@ -125,16 +111,6 @@ export const updateAppointment = async ({
     );
 
     if (!updatedAppointment) throw Error;
-
-    // const smsMessage = `Docto-Djib (😉) ${
-    //   type === "schedule"
-    //     ? `Votre rendez-vous pour le ${
-    //         formatDateTime(appointment.schedule!).dateTime
-    //       } avec Dr. ${appointment.primaryPhysician} est confirmé`
-    //     : `Nous avons le regret de vous informer que votre rendez-vous pour le ${
-    //         formatDateTime(appointment.schedule!).dateTime
-    //       } n'est PAS confirmé. Raison:  ${appointment.cancellationReason}`
-    // }.`
 
     const subjectMessage = `${
       type === "schedule"
@@ -151,12 +127,31 @@ export const updateAppointment = async ({
             formatDateTime(appointment.schedule!).dateTime
           } n'est PAS confirmé. Raison:  ${appointment.cancellationReason}`
     }.`;
-    await sendEmailNotification(userId, subjectMessage, emailMessage);
 
+    await sendEmailNotification(userId, subjectMessage, emailMessage);
+    await smsNotificationSinch(userId, emailMessage);
     revalidatePath("/admin");
     return parseStringify(updatedAppointment);
   } catch (error) {
     console.error("An error occurred while scheduling an appointment:", error);
+  }
+};
+
+const smsNotificationSinch = async (userId: string, message: string) => {
+  const userData = await getUser(userId);
+
+  try {
+    const response = await sinchClient.sms.batches.send({
+      sendSMSRequestBody: {
+        to: [userData.phone],
+        from: MY_SINCH_NUMBER,
+        body: message,
+      },
+    });
+
+    return parseStringify(response);
+  } catch (error) {
+    console.log(error);
   }
 };
 

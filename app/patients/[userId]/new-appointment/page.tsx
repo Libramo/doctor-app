@@ -2,6 +2,7 @@ import AppointmentForm from "@/components/forms/AppointmentForm";
 import PatientForm from "@/components/forms/PatientForm";
 import { Button } from "@/components/ui/button";
 import { getPatient } from "@/lib/actions/patient.actions";
+import { currentYearForCopyright } from "@/lib/utils";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -28,7 +29,7 @@ const NewAppointment = async ({ params: { userId } }: SearchParamProps) => {
 
           <p className="copyright mt-10 py-10">
             {/* © 2024 Doctor App, All rights reserved */}
-            {`${new Date().getFullYear()} Docto-Djib tous droits reservés`}
+            {currentYearForCopyright()}
           </p>
         </div>
       </section>
